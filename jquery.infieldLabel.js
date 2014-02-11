@@ -1,5 +1,5 @@
 /*! jquery.infieldLabel.js v 1.0 | Author: Jeremy Fields [jeremy.fields@viget.com], 2013 | License: MIT */
-
+/* modified by Mateusz Janik */
 (function($){
 
 	$.infieldLabel = function(el, options){
@@ -30,8 +30,14 @@
 
 		// first time input setup
 		base.setup = function() {
-			base.$input = base.$el.find("input[type=text],input[type=password]");
+			base.$input = base.$el.find("input[type=text],input[type=password],input[type=number],input[type=email],input[type=tel]");
 			base.$label = base.$el.find("label");
+
+			if (!base.$input.length) {
+				return
+			}
+
+			base.$el.addClass('infield-label');
 
 			// hide label if there's already a value
 			base.blur();
@@ -49,12 +55,14 @@
 						.addClass(base.options.focusClass);
 
 				}).on("blur.infield change.infield", function() {
+					
 					base.blur();
 				});
-				base.$label.on("click.infield", function() {
-					// empty onclick to fix older ios devices
-					// http://stackoverflow.com/a/6472181/222155
-				});
+				
+			base.$label.on("click.infield", function() {
+				// empty onclick to fix older ios devices
+				// http://stackoverflow.com/a/6472181/222155
+			});
 		};
 
 		base.blur = function() {
@@ -83,5 +91,5 @@
 			(new $.infieldLabel(this, options));
 		});
 	};
-
+ 
 })(jQuery);
